@@ -1,0 +1,218 @@
+//呼叫函式庫 
+#include<iostream>  //提供cout函式庫 
+#include<stdlib.h>  //提供rand()函式庫
+#include <ctime>  //產生時間供srand()設定初始的亂數種子 
+//函數宣告
+void initial(void);  //初始化母體 
+void print(void);  //印出每個母體中的基因內容
+void extract(void);  //使用輪盤式，將母體丟入交配池中
+void mating(void);  //進行交配 
+void mutation(void);  //進行突變 
+#define Rand()((double)rand()/(double)RAND_MAX) //可以隨機產生0~1均勻分布的亂數  
+#define zero_one()(rand()%2)  //可以隨機產生0或1的數 
+#define select_one_body()(rand()%body_quantity)  //隨機取得母體編號 
+#define select_one_gene()(rand()%(gene_length-1))  //隨機取得基因編號 
+inline double fit(int value){return(-value*value+24*value+30);}  //適應函數 f(x)=-(x-12)^2+174  預計最佳適應解12 最佳適應值174 
+inline int shift(int j){return(0x01<<j);}  //可回傳2的j次方 
+//全域變數宣告 
+const int Iteration=10; //要進行迭代的次數 
+const int gene_length=5; //每個基因的長度
+const int body_quantity=20; //有多少個基因
+const double mating_rate=0.5; //發生交配的機率 
+const double mutation_rate=0.2; //發生突變的機率 
+    //每個母體的結構 
+struct  maternal_body{
+	int number;  //第幾號母體 
+	int gene[gene_length];  //存放基因
+	double value;  //適應解
+	double fitness;  //適應值(適應值越大表示這是越好的基因) 
+};
+maternal_body body[body_quantity];  //產生body_quantity個母體 
+maternal_body best_body;  //儲存擁有最佳適應值的母體 
+maternal_body pool[body_quantity];  //交配池 
+//主程式 
+int main(){
+	using std::cout;
+	srand(time(NULL));  //srand()函數設定初始的亂數種子
+	cout<<"初始化";
+	initial();  //初始化母體 
+	print();  //印出初始化後每個母體中的內容
+	//迭代 
+	for(int z=1;z<=Iteration;z++){
+		cout<<"進行第"<<z<<"次篩選\n"; 
+		extract();  //使用輪盤式，將母體丟入交配池中
+		cout<<"進行第"<<z<<"次交配\n";
+	    mating();  //進行交配 
+	    cout<<"進行第"<<z<<"次突變\n";
+	    mutation();  //進行突變 
+	    print();  //印出目前每個母體中的內容
+	    cout<<"\n\n\n";
+	}
+	system("PAUSE");
+	return 0;
+} 
+//初始化母體 
+void initial(){
+	int count;  //將母體基因中的數值相加 
+	for(int i=0;i<body_quantity;i++){
+		count=0;
+		for(int j=0;j<gene_length;j++){
+			body[i].number=i; 
+			body[i].gene[j]=zero_one();  //將每個母體的每個基因指定為0或1的數值 
+			count=count+body[i].gene[j]*shift(j);  //將此基因序列從2進位轉成10進位 
+		}
+		body[i].value=count;  //將母體基因中的數值相加 
+		body[i].fitness=fit(body[i].value);  //並將適應解代入適應函數得到適應值 
+		if(i==0) best_body=body[i];  //找出擁有最佳適應值的母體，複製到最佳母體 
+		else if (body[i].fitness>best_body.fitness) best_body=body[i];
+	}
+}
+//印出並計算每個母體中的內容
+void print(){
+	using std::cout;
+	int count;  //將此基因序列從2進位轉成10進位 
+	cout<<"目前的的母體內容\n";
+	for(int i=0;i<body_quantity;i++){
+		cout<<"#"<<body[i].number<<"  ";
+		count=0;
+		for(int j=0;j<gene_length;j++){
+			cout<<body[i].gene[j]<<" ";
+			count=count+body[i].gene[j]*shift(j);  //將此基因序列從2進位轉成10進位 
+		}
+		body[i].value=count;  //將母體基因中的數值相加 
+		cout<<body[i].value<<" ";
+		body[i].fitness=fit(body[i].value);  //並將適應解帶入適應函數得到適應值 
+		cout<<body[i].fitness<<" ";
+		cout<<"\n";
+		//找出擁有最佳適應值的母體，複製到最佳母體 
+		if (body[i].fitness>best_body.fitness) {
+			cout<<"要更換了喔\n";
+		    best_body=body[i];
+		}
+	}
+	cout<<"The best body: ";
+	for(int k=0;k<gene_length;k++){
+			cout<<best_body.gene[k]<<" ";
+	}
+	cout<<" "<<best_body.value<<" "<<best_body.fitness<<"\n";
+} 
+//使用輪盤式，將母體丟入交配池中
+void extract(){
+	using std::cout;
+	int choose;  //暫存被選中準備要被丟入交配池的母體編號(number) 
+	double total_fitness=0;  //全部母體的適應值加總 
+	double accumulate_probability[body_quantity];  //每個母體的所占比例累加
+	//如果所占比例越大，那麼累加後他所占的區間也會越大，則被選到的機率更大 
+	double random;  //產生隨機0~1的數值 
+	//全部母體的適應值加總 
+	for(int i=0;i<body_quantity;i++)  
+	total_fitness+=body[i].fitness;   
+	//每個母體的所占比例累加
+	accumulate_probability[0]=(double)body[0].fitness/(double)total_fitness;
+	for(int i=1;i<body_quantity;i++)  
+	accumulate_probability[i]=accumulate_probability[i-1]+(double)body[i].fitness/(double)total_fitness;
+	for(int k=0;k<body_quantity;k++){
+		random=Rand();  //產生隨機0~1的數值
+	    for(int j=0;j<body_quantity;j++){  //尋找到機率區間 
+		    if(random<=accumulate_probability[j]){
+		    	choose=j;
+		    	break;
+			}
+		    continue;
+    	}
+	pool[k]=body[choose];
+	}
+	cout<<"準備被丟入交配池的母體編號:\n";
+	for(int l=0;l<body_quantity;l++){
+		cout<<"#"<<pool[l].number<<" ";
+	}
+    cout<<"\n\n";
+    for(int k=0;k<body_quantity;k++){pool[k].number=k;}  //更新為在pool中的編號
+    //印出目前在交配池中的母體 
+    cout<<"丟入交配池\n";
+    for(int i=0;i<body_quantity;i++){
+		cout<<"#"<<pool[i].number<<"  ";  //在pool中的編號 
+		for(int j=0;j<gene_length;j++){
+			cout<<pool[i].gene[j]<<" ";
+		}
+		cout<<pool[i].value<<" ";
+		cout<<pool[i].fitness<<" ";
+		cout<<"\n";
+	}
+} 
+//進行交配 
+void mating(){
+	using std::cout;
+	int b1,b2;  //從母體編號中，隨機選出2個不相同的編號 
+	int g1,g2;  //從基因編號中，隨機選出g2>g1的編號 
+	int area;  //要進行交配的基因編號區間 
+	int temp;  //暫存要交換的基因元素 
+	int count; //將此基因序列從2進位轉成10進位 
+	for(int i=0;i<=body_quantity;i++){
+		b1=select_one_body();
+	    do b2=select_one_body();  //持續隨機產生編號，直到b2的值與b1不相同 
+	    while(b2==b1);
+	    cout<<"b1="<<b1<<" b2="<<b2<<" ";
+	    //接下來隨機產生要交換基因的區間
+	    //如果基因編號為0~4，那麼g1為0~3，而g2為1~4，並且g2>g1 
+	    g1=select_one_gene();  
+	    do g2=select_one_gene()+1;  //持續隨機產生編號，直到b2的值大於b1 
+	    while(g2<=g1);
+	    cout<<"g1="<<g1<<" g2="<<g2<<"\n";
+	    if(Rand()<mating_rate){  //決定是否要交配 
+	    	cout<<"mating...\n";
+	    	for(area=g1;area<=g2;area++){
+		        temp=pool[b1].gene[area];
+		        pool[b1].gene[area]=pool[b2].gene[area];
+		        pool[b2].gene[area]=temp;
+	        }
+		}
+	    else{
+	    	cout<<"no mating\n";
+	    	continue;
+		}
+	}
+	//印出交配後的基因內容 
+    cout<<"交配後\n";
+    for(int i=0;i<body_quantity;i++){
+    	count=0;
+		cout<<"#"<<pool[i].number<<"  ";  //在pool中的編號 
+		for(int j=0;j<gene_length;j++){
+			cout<<pool[i].gene[j]<<" ";
+		}
+		cout<<"\n";
+	}
+    //將交配池pool中完成交換的所有母體複製回body 
+	for(int i=0;i<body_quantity;i++){
+		body[i]=pool[i];
+	}
+}
+//進行突變 
+void mutation(){
+	int b1;  //從母體編號中，隨機選出1個編號 
+	int g1,g2;  //從基因編號中，隨機選出g2>g1的編號 
+	int temp;  //暫存要交換的基因元素 
+	using std::cout;
+	for(int i=0;i<=body_quantity;i++){
+		b1=select_one_body();
+	    cout<<"b1="<<b1<<" ";
+	    //接下來隨機產生要進行交換的基因
+	    //如果基因編號為0~4，那麼g1為0~3，而g2為1~4，並且g2>g1 
+	    g1=select_one_gene();  
+	    do g2=select_one_gene()+1;  //持續隨機產生編號，直到b2的值大於b1 
+	    while(g2<=g1);
+	    cout<<"g1="<<g1<<" g2="<<g2<<"\n";
+	    if(Rand()<mutation_rate){  //決定是否產生突變 
+	    	cout<<"mutation...\n";
+		    temp=body[b1].gene[g1];  //進行母體上的基因交換 
+		    body[b1].gene[g1]=body[b1].gene[g2];
+		    body[b1].gene[g2]=temp;     
+		}
+	    else{
+	    	cout<<"no mutation\n";
+	    	continue;
+		}
+    }
+}   
+
+
