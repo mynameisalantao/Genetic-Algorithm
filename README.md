@@ -41,7 +41,7 @@ Genetic-Algorithm 2018/09/09
 	initial();  //初始化母體 
 	print();  //印出初始化後每個母體中的內容
 	//迭代 
-	for(int z=1;z<=Iteration;z++){
+	for(int z=1;z< = Iteration;z++){
 		cout<<"進行第"<<z<<"次篩選\n"; 
 		extract();  //使用輪盤式，將母體丟入交配池中
 		cout<<"進行第"<<z<<"次交配\n";
