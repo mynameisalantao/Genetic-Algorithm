@@ -228,6 +228,11 @@ accumulate_probability[2]=accumulate_probability[1]+(double)body[2].fitness/(dou
 	}
 }</pre></code>
 
+這裡我是隨機從交配池中取2個不相同的母體來交配<br/>
+當然有一定的機率會交配，也有一定機率不會<br/>
+交配方式是隨機選取基因上一個區間來進行互換<br/>
+交配完傳回body <br/>
+
 進行突變 
 --------
 <pre><code>void mutation(){
@@ -257,4 +262,6 @@ accumulate_probability[2]=accumulate_probability[1]+(double)body[2].fitness/(dou
     }
 }   </pre></code>
 
-
+這裡我則是一樣從母體中選出1個進行突變<br/>
+當然有一定的機率會突變，也有一定機率不會<br/>
+將這個基因列上的某2個元素進行交換，當作突變<br/>
