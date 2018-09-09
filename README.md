@@ -80,7 +80,7 @@ Genetic-Algorithm 2018/09/09
 <pre><code>#define zero_one()(rand()%2)  //可以隨機產生0或1的數 </pre></code>
 透過rand()產生隨機亂數，然後除以2得餘數必定會是0~1 <br/>
 然後基因序列從2進位轉成10進位利用到自己定義的函數:
-<pre><code>inline int shift(int j){return(0x01<<j);}  //可回傳2的j次方 </pre></code>
+<pre><code>inline int shift(int j){return(0x01 << j);}  //可回傳2的j次方 </pre></code>
 把0x01左移j的單位，就可以回傳2進位的次方<br/>
 接著將算出來的適應解body[i].value帶入適應函數fit(int)可以得到適應值指定給body[i].fitness <br/>
 如果是第一個母體，直接將此母體指定為最佳母體best_body <br/>
