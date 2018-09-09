@@ -91,7 +91,7 @@ Genetic-Algorithm 2018/09/09
 <pre><code>void print(){
 	using std::cout;
 	int count;  //將此基因序列從2進位轉成10進位 
-	cout<<"目前的的母體內容\n";
+	cout << "目前的的母體內容\n";
 	for(int i=0;i<body_quantity;i++){
 		cout << "#" << body[i].number << "  ";
 		count=0;
@@ -112,9 +112,9 @@ Genetic-Algorithm 2018/09/09
 	}
 	cout << "The best body: ";
 	for(int k=0;k<gene_length;k++){
-			cout<<best_body.gene[k]<<" ";
+			cout << best_body.gene[k] << " ";
 	}
-	cout<<" "<<best_body.value<<" "<<best_body.fitness<<"\n";
+	cout << " " << best_body.value << " "<<best_body.fitness << "\n";
 } </pre></code>
 就如同初始化一般，不過這次只找擁有比best_body.fitness還要大的body[i].fitness來當作新的best_body
 
