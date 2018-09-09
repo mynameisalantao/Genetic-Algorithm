@@ -92,7 +92,7 @@ Genetic-Algorithm 2018/09/09
 	using std::cout;
 	int count;  //將此基因序列從2進位轉成10進位 
 	cout << "目前的的母體內容\n";
-	for(int i=0;i<body_quantity;i++){
+	for(int i=0;i < body_quantity;i++){
 		cout << "#" << body[i].number << "  ";
 		count=0;
 		for(int j=0;j<gene_length;j++){
@@ -105,7 +105,7 @@ Genetic-Algorithm 2018/09/09
 		cout << body[i].fitness << " ";
 		cout << "\n";
 		//找出擁有最佳適應值的母體，複製到最佳母體 
-		if (body[i].fitness>best_body.fitness) {
+		if (body[i].fitness > best_body.fitness) {
 			cout << "要更換了喔\n";
 		    best_body=body[i];
 		}
@@ -132,12 +132,12 @@ Genetic-Algorithm 2018/09/09
 	total_fitness+=body[i].fitness;   
 	//每個母體的所占比例累加
 	accumulate_probability[0]=(double)body[0].fitness/(double)total_fitness;
-	for(int i=1;i<body_quantity;i++)  
+	for(int i=1;i < body_quantity;i++)  
 	accumulate_probability[i]=accumulate_probability[i-1]+(double)body[i].fitness/(double)total_fitness;
-	for(int k=0;k<body_quantity;k++){
+	for(int k=0;k < body_quantity;k++){
 		random=Rand();  //產生隨機0~1的數值
-	    for(int j=0;j<body_quantity;j++){  //尋找到機率區間 
-		    if(random<=accumulate_probability[j]){
+	    for(int j=0;j < body_quantity;j++){  //尋找到機率區間 
+		    if(random < =accumulate_probability[j]){
 		    	choose=j;
 		    	break;
 			}
@@ -147,7 +147,7 @@ Genetic-Algorithm 2018/09/09
 	}
 	cout << "準備被丟入交配池的母體編號:\n";
 	for(int l=0;l<body_quantity;l++){
-		cout << "#"<<pool[l].number << " ";
+		cout << "#" << pool[l].number << " ";
 	}
     cout << "\n\n";
     for(int k=0;k<body_quantity;k++){pool[k].number=k;}  //更新為在pool中的編號
