@@ -64,7 +64,7 @@ Genetic-Algorithm 2018/09/09
 	int count;  //將母體基因中的數值相加 
 	for(int i=0;i<body_quantity;i++){
 		count=0;
-		for(int j=0;j<gene_length;j++){
+		for(int j=0;j < gene_length;j++){
 			body[i].number=i; 
 			body[i].gene[j]=zero_one();  //將每個母體的每個基因指定為0或1的數值 
 			count=count+body[i].gene[j]*shift(j);  //將此基因序列從2進位轉成10進位 
@@ -186,7 +186,7 @@ Genetic-Algorithm 2018/09/09
 	    cout << "g1=" << g1<<" g2=" << g2 << "\n";
 	    if(Rand() < mating_rate){  //決定是否要交配 
 	    	cout << "mating...\n";
-	    	for(area=g1;area  <=g2;area++){
+	    	for(area=g1;area  <= g2;area++){
 		        temp=pool[b1].gene[area];
 		        pool[b1].gene[area]=pool[b2].gene[area];
 		        pool[b2].gene[area]=temp;
