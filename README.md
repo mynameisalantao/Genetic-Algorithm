@@ -111,7 +111,7 @@ Genetic-Algorithm 2018/09/09
 		}
 	}
 	cout << "The best body: ";
-	for(int k=0;k<gene_length;k++){
+	for(int k=0;k < gene_length;k++){
 			cout << best_body.gene[k] << " ";
 	}
 	cout << " " << best_body.value << " "<<best_body.fitness << "\n";
