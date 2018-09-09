@@ -164,6 +164,21 @@ Genetic-Algorithm 2018/09/09
 	}
 } </pre></code>
 
+利用(double)body[i].fitness/(double)total_fitness可以算出這個母體的適應值占全部加總適應值的多少比例<br/>
+比例越大代表越適合生存，當然被選取並丟入交配池的機率也應該要更大才是<br/>
+所以把他們各自比例做累加<br/>
+假如今天有3個物種，分別為body[0],body[1],body[2]，他們的適應值占全部加總適應值的比例分別為1/4、1/2、1/4，則:<br/>
+accumulate_probability[0]=(double)body[0].fitness/(double)total_fitness=1/4 <br/>
+accumulate_probability[1]=accumulate_probability[0]+(double)body[1].fitness/(double)total_fitness=(1/4)+(1/2)=3/4 <br/>
+accumulate_probability[2]=accumulate_probability[1]+(double)body[2].fitness/(double)total_fitness=(3/4)+(1/4)=1 <br/>
+所以他們所佔有區間分別為0~(1/4)、(1/4)~(3/4)、(3/4)~1 <br/>
+可以發現擁有越大占有值的母體，所占區間也越大，成正比關係<br/>
+當今天使用Rand()自訂義函數產生隨機0~1的數值<br/>
+<pre><code>#define Rand()((double)rand()/(double)RAND_MAX) //可以隨機產生0~1均勻分布的亂數 </pre></code>
+那麼這個數值落在body[1]區間的機率便是1/2，其餘則是1/4 <br/>
+如此便可選出優良基因丟入交配池 <br/>
+
+
 進行交配
 ---------
 <pre><code>void mating(){
