@@ -114,7 +114,7 @@ Genetic-Algorithm 2018/09/09
 	for(int k=0;k < gene_length;k++){
 			cout << best_body.gene[k] << " ";
 	}
-	cout << " " << best_body.value << " "<<best_body.fitness << "\n";
+	cout << " " << best_body.value << " "<< best_body.fitness << "\n";
 } </pre></code>
 就如同初始化一般，不過這次只找擁有比best_body.fitness還要大的body[i].fitness來當作新的best_body
 
