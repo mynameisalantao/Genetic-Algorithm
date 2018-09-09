@@ -86,8 +86,84 @@ Genetic-Algorithm 2018/09/09
 如果是第一個母體，直接將此母體指定為最佳母體best_body <br/>
 接著不斷尋找比這個best_body擁有更好適應值的母體來取代掉它 <br/>
 
+計算適應值並印出
+--------------
+<pre><code>void print(){
+	using std::cout;
+	int count;  //將此基因序列從2進位轉成10進位 
+	cout<<"目前的的母體內容\n";
+	for(int i=0;i<body_quantity;i++){
+		cout << "#" << body[i].number << "  ";
+		count=0;
+		for(int j=0;j<gene_length;j++){
+			cout << body[i].gene[j] << " ";
+			count=count+body[i].gene[j]*shift(j);  //將此基因序列從2進位轉成10進位 
+		}
+		body[i].value=count;  //將母體基因中的數值相加 
+		cout << body[i].value << " ";
+		body[i].fitness=fit(body[i].value);  //並將適應解帶入適應函數得到適應值 
+		cout << body[i].fitness << " ";
+		cout << "\n";
+		//找出擁有最佳適應值的母體，複製到最佳母體 
+		if (body[i].fitness>best_body.fitness) {
+			cout << "要更換了喔\n";
+		    best_body=body[i];
+		}
+	}
+	cout << "The best body: ";
+	for(int k=0;k<gene_length;k++){
+			cout<<best_body.gene[k]<<" ";
+	}
+	cout<<" "<<best_body.value<<" "<<best_body.fitness<<"\n";
+} </pre></code>
+就如同初始化一般，不過這次只找擁有比best_body.fitness還要大的body[i].fitness來當作新的best_body
 
+輪盤式
+---------
+<pre><code>void extract(){
+	using std::cout;
+	int choose;  //暫存被選中準備要被丟入交配池的母體編號(number) 
+	double total_fitness=0;  //全部母體的適應值加總 
+	double accumulate_probability[body_quantity];  //每個母體的所占比例累加
+	//如果所占比例越大，那麼累加後他所占的區間也會越大，則被選到的機率更大 
+	double random;  //產生隨機0~1的數值 
+	//全部母體的適應值加總 
+	for(int i=0;i<body_quantity;i++)  
+	total_fitness+=body[i].fitness;   
+	//每個母體的所占比例累加
+	accumulate_probability[0]=(double)body[0].fitness/(double)total_fitness;
+	for(int i=1;i<body_quantity;i++)  
+	accumulate_probability[i]=accumulate_probability[i-1]+(double)body[i].fitness/(double)total_fitness;
+	for(int k=0;k<body_quantity;k++){
+		random=Rand();  //產生隨機0~1的數值
+	    for(int j=0;j<body_quantity;j++){  //尋找到機率區間 
+		    if(random<=accumulate_probability[j]){
+		    	choose=j;
+		    	break;
+			}
+		    continue;
+    	}
+	pool[k]=body[choose];
+	}
+	cout << "準備被丟入交配池的母體編號:\n";
+	for(int l=0;l<body_quantity;l++){
+		cout << "#"<<pool[l].number << " ";
+	}
+    cout << "\n\n";
+    for(int k=0;k<body_quantity;k++){pool[k].number=k;}  //更新為在pool中的編號
+    //印出目前在交配池中的母體 
+    cout << "丟入交配池\n";
+    for(int i=0;i<body_quantity;i++){
+		cout << "#"<<pool[i].number << "  ";  //在pool中的編號 
+		for(int j=0;j<gene_length;j++){
+			cout << pool[i].gene[j]<<" ";
+		}
+		cout << pool[i].value << " ";
+		cout << pool[i].fitness << " ";
+		cout << "\n";
+	}
+} </pre></code>
 
-
+123
 
 
