@@ -33,6 +33,7 @@ maternal_body pool[body_quantity];  //交配池
 //主程式 
 int main(){
 	using std::cout;
+	cout<<"程式所有權AlanTao\n";
 	srand(time(NULL));  //srand()函數設定初始的亂數種子
 	cout<<"初始化";
 	initial();  //初始化母體 
