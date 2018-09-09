@@ -46,7 +46,7 @@ Genetic-Algorithm 2018/09/09
 		extract();  //使用輪盤式，將母體丟入交配池中
 		cout<<"進行第"<<z<<"次交配\n";
 	    mating();  //進行交配 
-	    cout<<"進行第"<<z<<"次突變\n";
+	    cout<<"進行第" << z << "次突變\n";
 	    mutation();  //進行突變 
 	    print();  //印出目前每個母體中的內容
 	    cout<<"\n\n\n";
