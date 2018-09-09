@@ -154,7 +154,7 @@ Genetic-Algorithm 2018/09/09
     //印出目前在交配池中的母體 
     cout << "丟入交配池\n";
     for(int i=0;i < body_quantity;i++){
-		cout << "#" <<pool[i].number << "  ";  //在pool中的編號 
+		cout << "#" << pool[i].number << "  ";  //在pool中的編號 
 		for(int j=0;j<gene_length;j++){
 			cout << pool[i].gene[j] << " ";
 		}
