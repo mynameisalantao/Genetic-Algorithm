@@ -24,7 +24,7 @@ Genetic-Algorithm 2018/09/09
 並且定義擁有最佳適應值的斑馬
 <pre><code>maternal_body best_body;  //儲存擁有最佳適應值的母體  </pre></code>
 
-先說明演算法的步驟:
+先說明演算法的步驟:<br/>
 1.編碼:依照需要的位數來決定基因的長度(gene_length)，這在程式開始前就要決定好<br/>
 2.初始化母體:本程式中void initial(void);部份<br/>
 3.計算適應值:本程式寫在void print(void);中，當然在初始化時也有計算<br/>
