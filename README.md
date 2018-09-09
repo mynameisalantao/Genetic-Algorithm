@@ -156,7 +156,7 @@ Genetic-Algorithm 2018/09/09
     for(int i=0;i < body_quantity;i++){
 		cout << "#"<<pool[i].number << "  ";  //在pool中的編號 
 		for(int j=0;j<gene_length;j++){
-			cout << pool[i].gene[j]<<" ";
+			cout << pool[i].gene[j] <<" ";
 		}
 		cout << pool[i].value << " ";
 		cout << pool[i].fitness << " ";
@@ -164,6 +164,53 @@ Genetic-Algorithm 2018/09/09
 	}
 } </pre></code>
 
-123
+進行交配
+---------
+<pre><code>void mating(){
+	using std::cout;
+	int b1,b2;  //從母體編號中，隨機選出2個不相同的編號 
+	int g1,g2;  //從基因編號中，隨機選出g2>g1的編號 
+	int area;  //要進行交配的基因編號區間 
+	int temp;  //暫存要交換的基因元素 
+	int count; //將此基因序列從2進位轉成10進位 
+	for(int i=0;i < =body_quantity;i++){
+		b1=select_one_body();
+	    do b2=select_one_body();  //持續隨機產生編號，直到b2的值與b1不相同 
+	    while(b2==b1);
+	    cout << "b1=" << b1 << " b2=" << b2 << " ";
+	    //接下來隨機產生要交換基因的區間
+	    //如果基因編號為0~4，那麼g1為0~3，而g2為1~4，並且g2 > g1 
+	    g1=select_one_gene();  
+	    do g2=select_one_gene()+1;  //持續隨機產生編號，直到b2的值大於b1 
+	    while(g2 < =g1);
+	    cout << "g1=" << g1<<" g2=" << g2 << "\n";
+	    if(Rand() < mating_rate){  //決定是否要交配 
+	    	cout << "mating...\n";
+	    	for(area=g1;area  <=g2;area++){
+		        temp=pool[b1].gene[area];
+		        pool[b1].gene[area]=pool[b2].gene[area];
+		        pool[b2].gene[area]=temp;
+	        }
+		}
+	    else{
+	    	cout << "no mating\n";
+	    	continue;
+		}
+	}
+	//印出交配後的基因內容 
+    cout<<"交配後\n";
+    for(int i=0;i < body_quantity;i++){
+    	count=0;
+		cout << "#" << pool[i].number << "  ";  //在pool中的編號 
+		for(int j=0;j < gene_length;j++){
+			cout << pool[i].gene[j] << " ";
+		}
+		cout << "\n";
+	}
+    //將交配池pool中完成交換的所有母體複製回body 
+	for(int i=0;i < body_quantity;i++){
+		body[i]=pool[i];
+	}
+}</pre></code>
 
 
