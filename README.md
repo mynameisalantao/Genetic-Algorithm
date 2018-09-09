@@ -213,4 +213,33 @@ Genetic-Algorithm 2018/09/09
 	}
 }</pre></code>
 
+進行突變 
+--------
+<pre><code>void mutation(){
+	int b1;  //從母體編號中，隨機選出1個編號 
+	int g1,g2;  //從基因編號中，隨機選出g2>g1的編號 
+	int temp;  //暫存要交換的基因元素 
+	using std::cout;
+	for(int i=0;i < = body_quantity;i++){
+		b1=select_one_body();
+	    cout << "b1=" << b1 << " ";
+	    //接下來隨機產生要進行交換的基因
+	    //如果基因編號為0~4，那麼g1為0~3，而g2為1~4，並且g2 > g1 
+	    g1=select_one_gene();  
+	    do g2=select_one_gene()+1;  //持續隨機產生編號，直到b2的值大於b1 
+	    while(g2 < =g1);
+	    cout << "g1=" << g1 << " g2=" << g2 << "\n";
+	    if(Rand() < mutation_rate){  //決定是否產生突變 
+	    	cout << "mutation...\n";
+		    temp=body[b1].gene[g1];  //進行母體上的基因交換 
+		    body[b1].gene[g1]=body[b1].gene[g2];
+		    body[b1].gene[g2]=temp;     
+		}
+	    else{
+	    	cout << "no mutation\n";
+	    	continue;
+		}
+    }
+}   </pre></code>
+
 
