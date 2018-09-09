@@ -147,7 +147,7 @@ Genetic-Algorithm 2018/09/09
 	}
 	cout << "準備被丟入交配池的母體編號:\n";
 	for(int l=0;l < body_quantity;l++){
-		cout << "#" << pool[l].number << " ";
+		cout <<  "#"  << pool[l].number << " ";
 	}
     cout << "\n\n";
     for(int k=0;k < body_quantity;k++){pool[k].number=k;}  //更新為在pool中的編號
