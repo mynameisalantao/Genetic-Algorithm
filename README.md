@@ -128,7 +128,7 @@ Genetic-Algorithm 2018/09/09
 	//如果所占比例越大，那麼累加後他所占的區間也會越大，則被選到的機率更大 
 	double random;  //產生隨機0~1的數值 
 	//全部母體的適應值加總 
-	for(int i=0;i<body_quantity;i++)  
+	for(int i=0;i < body_quantity;i++)  
 	total_fitness+=body[i].fitness;   
 	//每個母體的所占比例累加
 	accumulate_probability[0]=(double)body[0].fitness/(double)total_fitness;
@@ -146,14 +146,14 @@ Genetic-Algorithm 2018/09/09
 	pool[k]=body[choose];
 	}
 	cout << "準備被丟入交配池的母體編號:\n";
-	for(int l=0;l<body_quantity;l++){
+	for(int l=0;l < body_quantity;l++){
 		cout << "#" << pool[l].number << " ";
 	}
     cout << "\n\n";
-    for(int k=0;k<body_quantity;k++){pool[k].number=k;}  //更新為在pool中的編號
+    for(int k=0;k < body_quantity;k++){pool[k].number=k;}  //更新為在pool中的編號
     //印出目前在交配池中的母體 
     cout << "丟入交配池\n";
-    for(int i=0;i<body_quantity;i++){
+    for(int i=0;i < body_quantity;i++){
 		cout << "#"<<pool[i].number << "  ";  //在pool中的編號 
 		for(int j=0;j<gene_length;j++){
 			cout << pool[i].gene[j]<<" ";
