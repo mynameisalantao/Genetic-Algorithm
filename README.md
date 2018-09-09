@@ -171,7 +171,7 @@ Genetic-Algorithm 2018/09/09
 accumulate_probability[0]=(double)body[0].fitness/(double)total_fitness=1/4 <br/>
 accumulate_probability[1]=accumulate_probability[0]+(double)body[1].fitness/(double)total_fitness=(1/4)+(1/2)=3/4 <br/>
 accumulate_probability[2]=accumulate_probability[1]+(double)body[2].fitness/(double)total_fitness=(3/4)+(1/4)=1 <br/>
-所以他們所佔有區間分別為0~(1/4)、(1/4)~(3/4)、(3/4)~1 <br/>
+所以他們所佔有區間分別為0~(1/4)、(1/4)到(3/4)、(3/4)到1 <br/>
 可以發現擁有越大占有值的母體，所占區間也越大，成正比關係<br/>
 當今天使用Rand()自訂義函數產生隨機0~1的數值<br/>
 <pre><code>#define Rand()((double)rand()/(double)RAND_MAX) //可以隨機產生0~1均勻分布的亂數 </pre></code>
@@ -232,7 +232,7 @@ accumulate_probability[2]=accumulate_probability[1]+(double)body[2].fitness/(dou
 --------
 <pre><code>void mutation(){
 	int b1;  //從母體編號中，隨機選出1個編號 
-	int g1,g2;  //從基因編號中，隨機選出g2>g1的編號 
+	int g1,g2;  //從基因編號中，隨機選出g2 > g1的編號 
 	int temp;  //暫存要交換的基因元素 
 	using std::cout;
 	for(int i=0;i < = body_quantity;i++){
