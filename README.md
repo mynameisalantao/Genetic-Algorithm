@@ -155,7 +155,7 @@ Genetic-Algorithm 2018/09/09
     cout << "丟入交配池\n";
     for(int i=0;i < body_quantity;i++){
 		cout << "#" << pool[i].number << "  ";  //在pool中的編號 
-		for(int j=0;j<gene_length;j++){
+		for(int j=0;j < gene_length;j++){
 			cout << pool[i].gene[j] << " ";
 		}
 		cout << pool[i].value << " ";
